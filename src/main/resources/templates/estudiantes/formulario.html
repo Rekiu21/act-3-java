@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${estudiante.id == null ? 'Nuevo Estudiante' : 'Editar Estudiante'}">Estudiante</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            min-height: 100vh;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .page { max-width: 480px; margin: 0 auto; }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.8rem;
+            color: #6b7280;
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+        }
+        .back:hover { color: #111827; }
+
+        h1 { font-size: 1.4rem; font-weight: 600; margin-bottom: 1.75rem; }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 1.75rem;
+        }
+
+        .field { margin-bottom: 1.1rem; }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.4rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-family: inherit;
+            color: #111827;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        input:focus { border-color: #6b7280; }
+
+        .field-error {
+            display: block;
+            font-size: 0.78rem;
+            color: #dc2626;
+            margin-top: 0.3rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            transition: background 0.15s;
+        }
+        .btn-primary { background: #111827; color: #fff; }
+        .btn-primary:hover { background: #374151; }
+        .btn-ghost {
+            background: transparent;
+            color: #6b7280;
+            border: 1px solid #e5e7eb;
+        }
+        .btn-ghost:hover { background: #f3f4f6; color: #111827; }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <a class="back" th:href="@{/estudiantes}">← Volver</a>
+
+    <h1 th:text="${estudiante.id == null ? 'Nuevo estudiante' : 'Editar estudiante'}"></h1>
+
+    <div class="card">
+        <form th:object="${estudiante}"
+              th:action="${estudiante.id == null} ? @{/estudiantes/guardar} : @{/estudiantes/actualizar/{id}(id=${estudiante.id})}"
+              method="post">
+
+            <div class="field">
+                <label for="nombre">Nombre</label>
+                <input id="nombre" type="text" th:field="*{nombre}" placeholder="Ej. Juan Pérez">
+                <span class="field-error" th:errors="*{nombre}"></span>
+            </div>
+
+            <div class="field">
+                <label for="correo">Correo electrónico</label>
+                <input id="correo" type="email" th:field="*{correo}" placeholder="Ej. juan@email.com">
+                <span class="field-error" th:errors="*{correo}"></span>
+            </div>
+
+            <div class="field">
+                <label for="fechaRegistro">Fecha de registro</label>
+                <input id="fechaRegistro" type="date" th:field="*{fechaRegistro}">
+                <span class="field-error" th:errors="*{fechaRegistro}"></span>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" type="submit">Guardar</button>
+                <a class="btn btn-ghost" th:href="@{/estudiantes}">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>
